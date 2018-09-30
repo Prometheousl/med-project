@@ -81,6 +81,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataScraper.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="FormAbout.cs">
       <SubType>Form</SubType>

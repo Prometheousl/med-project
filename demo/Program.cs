@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using System.Timers;
 
 namespace WelchAllyn.VitalSigns
 {
 	static class Program
 	{
 		static string ApplicationMutexId = "{B6365701-68FA-4B85-A1DC-7839BE3CFE33}";
-        private static System.Timers.Timer timer;
 
 		/// <summary>
 		/// The main entry point for the application.
@@ -24,17 +22,13 @@ namespace WelchAllyn.VitalSigns
 					try
 					{
 						// mutex obtained - run the application
-						//Application.EnableVisualStyles();
-						//Application.SetCompatibleTextRenderingDefault(false);
+						/*Application.EnableVisualStyles();
+						Application.SetCompatibleTextRenderingDefault(false);
 
-						//Application.Run(new FormMain());
-                        SetTimer();
-                        Console.WriteLine("\nPress the Enter key to exit the application...\n");
-                        Console.WriteLine("The application started at {0:HH:mm:ss.fff}", DateTime.Now);
-                        Console.ReadLine();
-                        timer.Stop();
-                        timer.Dispose();
+						Application.Run(new FormMain());*/
 
+                        DataScraper scraper = new DataScraper();
+                        scraper.Main();
                         Console.WriteLine("Terminating the application...");
                     }
 					finally
@@ -51,14 +45,5 @@ namespace WelchAllyn.VitalSigns
 				}
 			}
 		}
-        private static void SetTimer()
-        {
-            // Create a timer w/ 1 second interval
-            timer = new System.Timers.Timer(1000);
-            // Hook up an elapsed event to the timer
-            timer.Elapsed += DataScraper.ScrapeData;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-        }
     }
 }

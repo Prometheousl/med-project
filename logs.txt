@@ -1,3 +1,11 @@
+9/30/2018	4 hrs
+
+Wrote a new class - DataScraper.cs that should be able to extract the data from the device. It uses a whole bunch of methods from
+FormMain.cs provided by the sample project. FormMain uses Windows Forms but we just need a console application.
+
+TODO: need to post the data received to an external address
+
+
 9/26/2018	3 hrs
 
 Got Bluetooth scraping of data working with the demo. Right now, only works when clicking a button called "acquire" in an windows form.
