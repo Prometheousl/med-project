@@ -1,0 +1,83 @@
+9/26/2018	3 hrs
+
+Got Bluetooth scraping of data working with the demo. Right now, only works when clicking a button called "acquire" in an windows form.
+Need to change it to scrape every second or so (what would be a good time interval?) using whatever the "acquire" button is calling.
+
+Seems to call "GetData" in "VitalSigns.cs" to scrape data from the Spot.
+So, the question is what do we want to do with this data? And, how often should we get it?
+
+How often?			Good question. Will start with every second.
+What do we do with data?	Post it to a web address would be ideal. (have to worry about security b/c medical data)
+
+Changed to Console App; modified script to call "ScrapeData" every second. Acquiring the data is going to be a bit more complicated
+than I initially thought. In "FormMain", it uses a variety of functions to keep track of the state of the data. Will look more into
+if I can just wrap around that Windows Application framework or if I will have to refactor it to not be a Windows Form App.
+
+TODO: 
+1. Refactor GetData to work from console (without clicking a button)
+2. Post resulting data to an internal address
+
+9/24/2018		2 hrs
+
+Got Visual Studio demo up and running. Now need to get data going back and forth from/to the device.
+
+Then, need to write a quick script to post the data received from the device to an internal address.
+
+We will either need to continously stream the data from the device or find specific places to send signals
+from the C# code (server) to the code that posts the data (client).
+
+TODO: Still need to get the data streaming over the USB. Probably have to set up some .dll stuff in Visual Studio.
+
+9/21/2018		3 hrs	
+
+The Welch SDK provides examples of code for different languages including...
+* C#
+* C
+* C++
+* Javascript
+There is a demo of the project but it requires a different VS runtime.
+
+Still unsure as to how this code should be run... documentation is unhelpful.
+
+How do I access the IWAConnectivity Object from my application code?
+How does the application code connect to the SDK?
+
+It looks like this SDK is intended to be run on Visual Studio in either C++ or C#.
+There are redistrutable packages that can be used in Visual Studio. These packages
+include the IWAConnectivity object among other things. Maybe first step is to get
+the demo working with these packages...
+
+TODO: Get Demo of SDK working in Visual Studio - will probably have to deal with
+backwards compatibility and installing those .mlm packages.
+
+9/19/2018		3hrs
+
+Looked at the Welch Allyn SDK readmes. Gives this general outline:
+
+1.  Instantiate the SDK.
+
+2.  Register the DeviceArrival event from the IDevices collection.
+
+3.  Call the SDK object’s Connect() method passing it a configuration filename (the default is "wasdkconfig.xml").
+
+4.  When a device connects, call the IDeviceData object’s GetDatum method to return the collection of physiological data objects that make up the SDK.
+
+5.  Call the IDatum object’s Item() method passing it the WASDKObjectID of the object you wish to poll.
+
+6.  Call the Data object’s Request() method to poll the device for data.
+
+7.  Check the object’s status property to ensure valid data and, if necessary, check the objects extended status property.
+
+8.  Call the object’s property to get the configuration data.
+
+9.  Disconnect from the SDK when finished.
+
+However, I am unsure how I am supposed to implement this. It has some examples all of which are convoluted... will look more into it.
+
+End result of this piece of the code should poll the Welch Allyn device (Spot I think?) for data at a set interval and then post
+that data as a JSON object (following proper security protocol for medical data) to an internal address. The React-app should then
+do a get to that address and update its components accordingly.
+
+Will use USB to start out with.
+
+TODO: Determine how to use the SDK to obtain data from the Welch-Allyn device over USB.
