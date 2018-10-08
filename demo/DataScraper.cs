@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Timers;
 using System.IO;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Globalization;
+using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace WelchAllyn.VitalSigns
 {
@@ -31,36 +33,60 @@ namespace WelchAllyn.VitalSigns
         private WADeviceData _WADeviceData = null;
         private WADevices _WADevices = null;
         private string deviceID;
+
+        private static HttpClient client = new HttpClient();
         public void Main()
         {
+            // need to wait until SDK is connected first
             this.LoadConnectivitySDK();
-            this.SetTimer();            // Calls ScrapeData every second
-            Console.WriteLine("\nPress the Enter key to exit the application...\n");
-            Console.WriteLine("The application started at {0:HH:mm:ss.fff}", DateTime.Now);
-            Console.ReadLine();
-            timer.Stop();
-            timer.Dispose();
+            VitalSigns[] data = null;
+            while(true)
+            {
+                lock (deviceDataLock)
+                {
+                    Console.WriteLine("While loop executed.");
+                    if (_WADeviceData != null)
+                    {
+                        // Scrape Data from device
+                        data = ScrapeData();
+                        // Format and post to external URL
+                        PostData(data);
+                    }
+                    Thread.Sleep(1000);
+                }
+            }
         }
-        private void ScrapeData(object source, ElapsedEventArgs e)
+        private VitalSigns[] ScrapeData()
         {
+            Console.WriteLine("Scraping data!");
+            VitalSigns[] data = null;
             // code here will run every second
-            Console.WriteLine("The Elapsed event was raised at {0:HH:mm:ss.fff}",
-                                e.SignalTime);
             try
             {
-                backgroundWorkerMain.RunWorkerAsync(GetAllSessions);
-            }
-            catch (InvalidOperationException ex)
-            {
-                // background worker in use - go do something else
-                ex.Report(string.Empty);
+                data = GetVitalSignsData(GetAllSessions);
+                
+                //Console.WriteLine(String.Format("{0}",data[0].WeightData.Weight));
             }
             catch (Exception ex)
             {
-                ex.Report(string.Empty);
+                ex.Report(ex.ToString());
             }
+            return data;
         }
+        private void PostData(VitalSigns[] data)
+        {
+            Console.WriteLine("Posting data!");
+            string dataJson = JsonConvert.SerializeObject(data);
+            Console.WriteLine("JSON version of data is...");
+            Console.WriteLine(dataJson);
 
+            Uri baseUri = new Uri("http://0.0.0.0");
+            Uri dataUri = new Uri(baseUri, "api/data");
+            StringContent content = new StringContent(dataJson, Encoding.UTF8, "application/json");
+
+            var result = client.PostAsync(dataUri, content);
+            Console.WriteLine(result.ToString());
+        }
         private void LoadConnectivitySDK()
         {
             try
@@ -90,51 +116,9 @@ namespace WelchAllyn.VitalSigns
                 ex.Report(string.Empty);
             }
         }
-        private void backgroundWorkerMain_DoWork(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker backgroundWorker = sender as BackgroundWorker;
-            if (null != backgroundWorker)
-            {
-                e.Result = GetVitalSignsData((int)e.Argument);
-
-                if (backgroundWorker.CancellationPending)
-                    e.Cancel = true;
-            }
-        }
-
-        private void backgroundWorkerMain_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            try
-            {
-                if (e.Error != null)
-                {
-                    throw e.Error;
-                }
-                else if (e.Cancelled)
-                {
-                    throw new OperationCanceledException("The user has cancelled the operation.");
-                }
-                else
-                {
-                    // fill the form with the data retrieved
-                    /*if (this.tabControlMain.SelectedTab == tabPageCurrent)
-                    {
-                        ShowCurrentReading((VitalSigns[])e.Result);
-                    }
-                    else
-                    {
-                        ShowStoredReadings((VitalSigns[])e.Result);
-                    }*/
-                    Console.WriteLine((VitalSigns[])e.Result);
-                }
-            }
-            catch (Exception ex)
-            {
-                ex.Report(string.Empty);
-            }
-        }
         private void WADevices_DeviceArrival(string bszDeviceID, WADeviceData pDevice)
         {
+            Console.WriteLine("Device arrived");
             lock (deviceDataLock)
             {
                 // unwire DeviceArrival and wire DeviceRemoval
@@ -170,17 +154,9 @@ namespace WelchAllyn.VitalSigns
                 deviceID = string.Empty;
             }
         }
-        private void SetTimer()
-        {
-            // Create a timer w/ 1 second interval
-            timer = new System.Timers.Timer(1000);
-            // Hook up an elapsed event to the timer
-            timer.Elapsed += this.ScrapeData;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-        }
         private VitalSigns[] GetVitalSignsData(int index)
         {
+            Console.WriteLine("Getting data");
             const uint Timeout = 0x80044019;
 
             VitalSigns[] retval = null;

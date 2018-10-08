@@ -1,3 +1,33 @@
+10/8/2018	3 hrs
+
+Researched into how the server/client should be structured. Looked into using DotNetify - an open-source project that passes class data
+over a websocket to the client (so essentially c# code would be running as both server and database)... Also looked into simply
+posting the data to an address on the webserver and then pulling it from the server in the react code. I want to implement this with
+websockets though because it would make much more sense.
+
+Also set up a React framework for the project (create-react-app)
+
+TODO: need to get the data into React and then structure the UI.
+      I'm guessing that you could... 1. Set up a server and a database (like express and firebase)
+				     2. Post data to the server from the c# code and store in database
+				     3. Set up a websocket that fires an event to the React code every time there is an update to
+					the database.
+
+
+10/3/2018	4 hrs
+
+Got Json!!! So, now need to figure out server architecture... How do we get json data into React?
+
+Could post it to an address and have client (React code) do a GET request to the address every second
+OR could use socket.io and have the server (VS C# code) send an event signal to react code via a socket... this would probably be the
+better implementation if we can implement it.
+
+10/2/2018	3 hrs
+
+Continued writing the class Datascraper.cs. Added some more methods - changing from a Windows Form project to a console project.
+
+TODO: Get Json!!
+
 9/30/2018	4 hrs
 
 Wrote a new class - DataScraper.cs that should be able to extract the data from the device. It uses a whole bunch of methods from
