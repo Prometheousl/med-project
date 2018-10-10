@@ -1,20 +1,31 @@
 import React from 'react';
-import dotnetify from 'dotnetify';
+import socketIOClient from "socket.io-client";
 
-dotnetify.hubServerUrl = 'http://localhost:5000';
+const endpoint = "http://127.0.0.1:4001"
 
-export default class HelloWorld extends React.Component {
+export default class HealthData extends React.Component {
   constructor(props) {
     super(props);
-    dotnetify.react.connect('HelloWorld', this);
-    this.state = { Greetings: '', ServerTime: '' };
+    this.state = {
+      healthData: false,
+    }
+  }
+
+  componentDidMount() {
+    const socket = socketIOClient(endpoint);
+    socket.on("FromAPI", data => this.setState({ healthData: data}));
   }
 
   render() {
+    const { healthData } = this.state;
     return (
       <div>
-        <p>{this.state.Greetings}</p>
-        <p>Server time is: {this.state.ServerTime}</p>
+      {healthData
+        ? <p>
+            The temperature in Florence is: {healthData} degrees F
+          </p>
+        : <p> Loading...</p>
+      }
       </div>
     );
   }

@@ -1,3 +1,7 @@
+10/10/2018	3 hrs
+
+Tried to implement communication between the C# and React code over a websocket server. Haven't gotten it working yet.
+
 10/8/2018	3 hrs
 
 Researched into how the server/client should be structured. Looked into using DotNetify - an open-source project that passes class data

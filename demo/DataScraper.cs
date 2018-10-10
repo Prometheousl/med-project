@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Globalization;
 using Newtonsoft.Json;
 using System.Net.Http;
+using WebSocketSharp;
 
 namespace WelchAllyn.VitalSigns
 {
@@ -49,8 +50,8 @@ namespace WelchAllyn.VitalSigns
                     {
                         // Scrape Data from device
                         data = ScrapeData();
-                        // Format and post to external URL
-                        PostData(data);
+                        // Format and send data to websocket
+                        SendData(data);
                     }
                     Thread.Sleep(1000);
                 }
@@ -73,19 +74,22 @@ namespace WelchAllyn.VitalSigns
             }
             return data;
         }
-        private void PostData(VitalSigns[] data)
+        private void SendData(VitalSigns[] data)
         {
-            Console.WriteLine("Posting data!");
+            Console.WriteLine("Sending data!");
+            // Convert to JSON data
             string dataJson = JsonConvert.SerializeObject(data);
             Console.WriteLine("JSON version of data is...");
             Console.WriteLine(dataJson);
+            // Send via websocket protocol
+            using (var ws = new WebSocket("ws://127.0.0.1:4001/socket.io/?EIO=2&transport=websocket"))
+            {
+                ws.OnMessage += (sender, e) =>
+                    Console.WriteLine("New message from controller: " + e.Data);
 
-            Uri baseUri = new Uri("http://0.0.0.0");
-            Uri dataUri = new Uri(baseUri, "api/data");
-            StringContent content = new StringContent(dataJson, Encoding.UTF8, "application/json");
-
-            var result = client.PostAsync(dataUri, content);
-            Console.WriteLine(result.ToString());
+                ws.Connect();
+                ws.Send(dataJson);
+            }
         }
         private void LoadConnectivitySDK()
         {
