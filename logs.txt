@@ -1,3 +1,7 @@
+10/15/1018	3 hrs
+
+Looked into a different implementation of the system using a node server instead of the C# code. Dr. Crawford helped with it.
+
 10/10/2018	3 hrs
 
 Tried to implement communication between the C# and React code over a websocket server. Haven't gotten it working yet.

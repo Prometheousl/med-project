@@ -10,6 +10,7 @@ using System.Runtime.InteropServices;
 using System.Globalization;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Net.Sockets;
 using WebSocketSharp;
 
 namespace WelchAllyn.VitalSigns
@@ -82,14 +83,18 @@ namespace WelchAllyn.VitalSigns
             Console.WriteLine("JSON version of data is...");
             Console.WriteLine(dataJson);
             // Send via websocket protocol
-            using (var ws = new WebSocket("ws://127.0.0.1:4001/socket.io/?EIO=2&transport=websocket"))
+            /*using (var ws = new WebSocket("ws://127.0.0.1:4001/socket.io/?EIO=2&transport=websocket"))
             {
                 ws.OnMessage += (sender, e) =>
                     Console.WriteLine("New message from controller: " + e.Data);
 
                 ws.Connect();
                 ws.Send(dataJson);
-            }
+            }*/
+            Console.WriteLine(System.Net.IPAddress.Loopback.ToString());
+            string server = System.Net.IPAddress.Loopback.ToString();
+            int port = 4001;
+            string result = GetSocket.SocketSend(server, port, dataJson);
         }
         private void LoadConnectivitySDK()
         {
