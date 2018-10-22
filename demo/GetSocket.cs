@@ -43,13 +43,14 @@ namespace WelchAllyn.VitalSigns
         // This method requests the home page content for the specified server.
         internal static string SocketSend(string server, int port, string json)
         {
+            Console.WriteLine("Connecting to server" + server + " at port " + port);
             Byte[] bytesSent = Encoding.ASCII.GetBytes(json);
             Byte[] bytesReceived = new Byte[256];
 
             // Create a socket connection with the specified server and port.
             using (Socket s = ConnectSocket(server, port))
             {
-
+                Console.WriteLine("Socket is..." + s);
                 if (s == null)
                     return ("Connection failed");
 

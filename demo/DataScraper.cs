@@ -93,7 +93,7 @@ namespace WelchAllyn.VitalSigns
             }*/
             Console.WriteLine(System.Net.IPAddress.Loopback.ToString());
             string server = System.Net.IPAddress.Loopback.ToString();
-            int port = 4001;
+            int port = 4002;
             string result = GetSocket.SocketSend(server, port, dataJson);
         }
         private void LoadConnectivitySDK()

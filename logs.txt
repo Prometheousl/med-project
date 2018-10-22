@@ -1,3 +1,28 @@
+10/22/2018	
+
+Talked with Chris about how to implement. I'm thinking now that implementing a websocket between C# and Javascript is the way to go!
+
+I'll either have to find an existing library for hosting a websocket server in C# or I'll have to implement my own protocol.
+
+10/19/2018	3 hrs
+
+Went back to C# code. Tried to implement a socket connection between c#, nodeJS, and React.
+I can communicate between React and nodeJS via socket.io. However, I can't get C# to communicate that way.
+I can also get C# to communicate via regular sockets. However, I can't get React to communicate that way.
+
+Looking for a solution. Maybe websockets is the answer??
+
+10/17/2018	3 hrs
+
+Tried implementing a node version of the bluetooth scraper. 
+
+Two related problems: Doesn't seem to be an available serial port when connecting that way (returns -1).
+ 
+And, instead of connecting to the laptop, the device says 'make sure host application is running' 
+making it seem as if the device is aware if the C# code is running or not.
+
+So, maybe C#/nodeJS/React is the way to go with the system
+
 10/15/1018	3 hrs
 
 Looked into a different implementation of the system using a node server instead of the C# code. Dr. Crawford helped with it.

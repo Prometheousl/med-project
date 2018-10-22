@@ -17,6 +17,10 @@ io.on("connection", socket => {
     () => getApiAndEmit(socket),
     10000
   );
+  socket.on('data', function(data) {
+    console.log("data received: %s", data);
+    socket.write("Hello" + data);
+  });
   socket.on('message', () => console.log("message received"));
   socket.on("disconnect", () => console.log("Client disconnected"));
 });
