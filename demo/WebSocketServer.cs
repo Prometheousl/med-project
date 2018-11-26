@@ -8,6 +8,9 @@ namespace WelchAllyn.VitalSigns
 {
     internal class WebSocketServer
     {
-        
+        internal static Socket CreateSocket()
+        {
+
+        }
     }
 }

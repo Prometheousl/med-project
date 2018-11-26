@@ -91,10 +91,12 @@ namespace WelchAllyn.VitalSigns
                 ws.Connect();
                 ws.Send(dataJson);
             }*/
-            Console.WriteLine(System.Net.IPAddress.Loopback.ToString());
+            /*Console.WriteLine(System.Net.IPAddress.Loopback.ToString());
             string server = System.Net.IPAddress.Loopback.ToString();
             int port = 4002;
-            string result = GetSocket.SocketSend(server, port, dataJson);
+            string result = GetSocket.SocketSend(server, port, dataJson);*/
+            //var content = new StringContent(dataJson.ToString(), Encoding.UTF8, "application/json");
+            //var result = client.PostAsync("http://127.0.0.1:4002/", content).Result;
         }
         private void LoadConnectivitySDK()
         {

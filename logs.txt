@@ -1,4 +1,24 @@
-10/22/2018	
+11/7/2018	1 hr
+
+Meeting with Dr. George and Dr. Crawford
+
+Talked about getting a demo of displaying a simple view of the data from the Spot device up and running in a month
+After getting the demo running, can worry about database and getting the data HIPPA compliant.
+Also have to worry about integrating the existing React form code.
+
+
+11/6/2018	2 hrs
+
+Started working on a c#/nodejs/mysql/react implementation.
+
+Pros: More robust; stuff can be on different computers; can have multiple connections to the server
+      Abstracts data from the view; Can post information from the react code to the database (form data) and have it be persistent
+
+10/29/2018 	3 hrs
+
+Continued working on getting a websocket server to work. Doesn't seem to be working. Maybe we need a database to store the information?
+
+10/22/2018	2 hrs
 
 Talked with Chris about how to implement. I'm thinking now that implementing a websocket between C# and Javascript is the way to go!
 
