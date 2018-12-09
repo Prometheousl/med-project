@@ -4,16 +4,28 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "chart.js": "^2.7.3",
+    "classnames": "^2.2.6",
+    "cross-env": "^5.2.0",
     "dotnetify": "^3.1.1",
+    "grommet": "^2.2.0",
+    "material-ui": "^0.20.2",
+    "polished": "^2.3.1",
+    "primeicons": "^1.0.0",
+    "primereact": "^2.0.1",
     "react": "^16.5.2",
+    "react-chartjs-2": "^2.7.4",
+    "react-charts": "^2.0.0-alpha.12",
     "react-dom": "^16.5.2",
     "react-scripts": "2.0.4",
     "react-websocket": "^2.0.0",
+    "recharts": "^1.4.1",
     "socket.io-client": "^2.1.1",
+    "styled-components": "^4.1.2",
     "tslib": "^1.9.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -26,6 +38,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "proxy": "http://localhost:5000/"
+  ]
 }
