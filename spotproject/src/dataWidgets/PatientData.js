@@ -5,7 +5,7 @@ import { Box, Grid, Heading, Text } from 'grommet';
 
 const endpoint = 'http://127.0.0.1:3000/';
 const patientEndpoint = endpoint + 'PatientData';
-const timeEndpoint = endpoint + 'SessionData';
+const timeEndpoint = endpoint + 'SessionDate';
 const heightEndpoint = endpoint + 'HeightData';
 const weightEndpoint = endpoint + 'WeightData';
 const bmiEndpoint = endpoint + 'BMIData';
@@ -58,7 +58,7 @@ export default class PatientData extends React.Component {
   getTime() {
     axios.get(timeEndpoint)
       .then(res => {
-        this.setState({ time: res.data.SessionDate });
+        this.setState({ time: this.sanitizeTime(res.data.SessionDate) });
       })
   }
 
@@ -98,6 +98,15 @@ export default class PatientData extends React.Component {
       })
   }
 
+  sanitizeTime(sessionDate) {
+    /*var date = new Date(sessionDate);
+    var m = date.getMinutes();
+    var s = date.getSeconds();
+    return m + ':' + s;*/
+    var date = new String(sessionDate);
+    return date.substring(0, date.length-6);
+  }
+
   render() {
     return (
       <div>
@@ -126,7 +135,7 @@ export default class PatientData extends React.Component {
             <Text margin="xsmall"> BMI:    {this.state.bmi}    </Text><br />
           </Box>
           <Box gridArea="time" pad='xsmall'>
-            Time:   {this.state.time}   <br />
+            Date:   {this.state.time}   <br />
           </Box>
         </Grid>
       </div>

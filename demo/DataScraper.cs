@@ -9,7 +9,9 @@ using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http;
+using System.Net;
 using System.Net.Sockets;
 using WebSocketSharp;
 
@@ -37,10 +39,13 @@ namespace WelchAllyn.VitalSigns
         private string deviceID;
 
         private static HttpClient client = new HttpClient();
+        //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+        
         public void Main()
         {
             // need to wait until SDK is connected first
             this.LoadConnectivitySDK();
+            client.Timeout = Timeout.InfiniteTimeSpan;
             VitalSigns[] data = null;
             while(true)
             {
@@ -54,7 +59,7 @@ namespace WelchAllyn.VitalSigns
                         // Format and send data to websocket
                         SendData(data);
                     }
-                    Thread.Sleep(1000);
+                    Thread.Sleep(2330);
                 }
             }
         }
@@ -78,25 +83,54 @@ namespace WelchAllyn.VitalSigns
         private void SendData(VitalSigns[] data)
         {
             Console.WriteLine("Sending data!");
+            
             // Convert to JSON data
             string dataJson = JsonConvert.SerializeObject(data);
+            // Trim leading and trailing brackets (JSONConvert adds them)
+            dataJson = dataJson.TrimStart(new char[] { '[' }).TrimEnd(new char[] { ']' });
             Console.WriteLine("JSON version of data is...");
             Console.WriteLine(dataJson);
-            // Send via websocket protocol
-            /*using (var ws = new WebSocket("ws://127.0.0.1:4001/socket.io/?EIO=2&transport=websocket"))
-            {
-                ws.OnMessage += (sender, e) =>
-                    Console.WriteLine("New message from controller: " + e.Data);
 
-                ws.Connect();
-                ws.Send(dataJson);
-            }*/
-            /*Console.WriteLine(System.Net.IPAddress.Loopback.ToString());
-            string server = System.Net.IPAddress.Loopback.ToString();
-            int port = 4002;
-            string result = GetSocket.SocketSend(server, port, dataJson);*/
-            //var content = new StringContent(dataJson.ToString(), Encoding.UTF8, "application/json");
-            //var result = client.PostAsync("http://127.0.0.1:4002/", content).Result;
+            var jo = JObject.Parse(dataJson);
+            var endpoint = "http://127.0.0.1:3000/";
+            string[] dataNames = {"HeightData", "PainData", "WeightData", "BMIData", "TemperatureData",
+                "HeartRateData", "NibpData", "PatientData", "SessionDate", "Spo2Data" };
+
+            for(int x = 0; x < dataNames.Length; x++)
+            {
+                postData(jo, dataNames[x], endpoint);
+                Thread.Sleep(500);
+            }
+        }
+        private void postData(JObject jo, string dataName, string endpoint)
+        {
+            var data = "";
+            if (jo[dataName] != null)
+                data = jo[dataName].ToString();
+
+            // SessionDate is special because it isn't its own object in the json
+            if(dataName == "SessionDate")
+            {
+                // 2018 - 11 - 26T09: 20:39
+                data = data.Insert(0, "\"");
+                data = data.Insert(data.Length, "\"");
+                // "2018-11-26T09:20:39"
+                data = data.Insert(0,"\"" + dataName + "\": ");
+                // "SessionDate": "2018-11-26T09:20:39"
+                data = data.Insert(0, "{");
+                data = data.Insert(data.Length, "}");
+                // {"SessionDate": "2018-11-26T09:20:39"}
+            }
+
+            if (data != "")
+            {
+                var content = new StringContent(data.ToString(), Encoding.UTF8, "application/json");
+                Console.WriteLine("Posting " + data.ToString());
+                var result = client.PostAsync(endpoint + dataName, content).Result;
+
+                Console.WriteLine("Result of " + dataName + " is:");
+                Console.WriteLine(result);
+            }
         }
         private void LoadConnectivitySDK()
         {
