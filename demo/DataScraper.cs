@@ -59,7 +59,7 @@ namespace WelchAllyn.VitalSigns
                         // Format and send data to websocket
                         SendData(data);
                     }
-                    Thread.Sleep(2330);
+                    Thread.Sleep(1000);
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace WelchAllyn.VitalSigns
             for(int x = 0; x < dataNames.Length; x++)
             {
                 postData(jo, dataNames[x], endpoint);
-                Thread.Sleep(500);
+                Thread.Sleep(100);
             }
         }
         private void postData(JObject jo, string dataName, string endpoint)

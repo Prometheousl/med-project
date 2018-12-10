@@ -5,6 +5,9 @@ import { Box, Heading, Text } from 'grommet';
 
 const endpoint = 'http://127.0.0.1:3000/';
 const heartRateEndpoint = endpoint + 'HeartRateData';
+const nibpEndpoint = endpoint + 'NibpData';
+const spo2Endpoint = endpoint + 'Spo2Data';
+
 const timeEndpoint = endpoint + 'SessionData';
 
 class HeartRateChart extends React.Component {
@@ -30,10 +33,12 @@ class HeartRateChart extends React.Component {
 
   // Get heart rate from endpoint and append to array
   getHeartRateData() {
-    axios.get(heartRateEndpoint)
-      .then(res => {
-        this.setState({ heartRates: [...this.state.heartRates, res.data.Hr ]});
-      })
+      axios.get(spo2Endpoint)
+        .then(res => {
+          console.log(res.data.HR);
+          this.setState({ heartRates: [...this.state.heartRates, res.data.HR ]});
+        })
+
   }
 
   // Get Time associated with heart rate and append to array
