@@ -27,7 +27,8 @@ export default class NibpData extends React.Component {
   getTempData() {
     axios.get(spo2Endpoint)
       .then(res => {
-        this.setState({ temp: res.data.Temperature });
+        this.setState({
+          temp: Math.round(res.data.Temperature - 210) });
       })
   }
 

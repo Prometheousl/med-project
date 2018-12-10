@@ -66,7 +66,7 @@ export default class PatientData extends React.Component {
     axios.get(weightEndpoint)
       .then(res => {
         this.setState({
-          weight: res.data.Weight
+          weight: Math.round(res.data.Weight/453.59)
         });
       })
   }
@@ -93,16 +93,12 @@ export default class PatientData extends React.Component {
     axios.get(heightEndpoint)
       .then(res => {
         this.setState({
-          height: res.data.Height
+          height: res.data.Height/25.4
         });
       })
   }
 
   sanitizeTime(sessionDate) {
-    /*var date = new Date(sessionDate);
-    var m = date.getMinutes();
-    var s = date.getSeconds();
-    return m + ':' + s;*/
     var date = new String(sessionDate);
     return date.substring(0, date.length-6);
   }
@@ -130,8 +126,8 @@ export default class PatientData extends React.Component {
             <Text margin="xsmall"> number: {this.state.number} </Text> <br />
           </Box>
           <Box gridArea="bodyInfo" pad='xsmall'>
-            <Text margin="xsmall" pad="none"> Height: {this.state.height} </Text> <br />
-            <Text margin="xsmall"> Weight: {this.state.weight} </Text><br />
+            <Text margin="xsmall" pad="none"> Height: {this.state.height}" </Text> <br />
+            <Text margin="xsmall"> Weight: {this.state.weight}lbs </Text><br />
             <Text margin="xsmall"> BMI:    {this.state.bmi}    </Text><br />
           </Box>
           <Box gridArea="time" pad='xsmall'>

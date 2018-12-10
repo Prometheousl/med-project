@@ -31,9 +31,9 @@ export default class NibpData extends React.Component {
     axios.get(nibpEndpoint)
       .then(res => {
         this.setState({
-          systolic: res.data.Systolic,
-          diastolic: res.data.Diastolic,
-          map: res.data.Map
+          systolic: Math.round(res.data.Systolic/100),
+          diastolic: Math.round(res.data.Diastolic/100),
+          map: Math.round(res.data.Map/100)
         });
       })
   }
