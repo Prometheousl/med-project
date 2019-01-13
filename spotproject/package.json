@@ -38,5 +38,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "react-styleguidist": "^8.0.6",
+    "webpack": "^4.28.4"
+  }
 }

@@ -40,7 +40,13 @@ namespace WelchAllyn.VitalSigns
 
         private static HttpClient client = new HttpClient();
         //System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-        
+
+        /// <summary>
+        /// Waits for the SDK to connect via Bluetooth.
+        /// Once the SDK is connected, it continually scrapes the data from
+        ///    the device via Bluetooth and then sends the data to the server
+        ///    found in json-server. The data is sent as json data.
+        /// </summary>
         public void Main()
         {
             // need to wait until SDK is connected first
@@ -59,10 +65,16 @@ namespace WelchAllyn.VitalSigns
                         // Format and send data to websocket
                         SendData(data);
                     }
+                    // need to introduce latency
                     Thread.Sleep(2330);
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the data from the device every second.
+        /// Uses a Bluetooth connection obtained earlier
+        /// </summary>
         private VitalSigns[] ScrapeData()
         {
             Console.WriteLine("Scraping data!");
@@ -71,7 +83,7 @@ namespace WelchAllyn.VitalSigns
             try
             {
                 data = GetVitalSignsData(GetAllSessions);
-                
+
                 //Console.WriteLine(String.Format("{0}",data[0].WeightData.Weight));
             }
             catch (Exception ex)
@@ -80,10 +92,18 @@ namespace WelchAllyn.VitalSigns
             }
             return data;
         }
+
+        /// <summary>
+        /// Converts the data into json and then posts the data to the
+        ///   json-server.
+        /// </summary>
+        /// <param name="data">
+        /// The medical data just scraped from the device
+        /// </param>
         private void SendData(VitalSigns[] data)
         {
             Console.WriteLine("Sending data!");
-            
+
             // Convert to JSON data
             string dataJson = JsonConvert.SerializeObject(data);
             // Trim leading and trailing brackets (JSONConvert adds them)
@@ -102,6 +122,20 @@ namespace WelchAllyn.VitalSigns
                 Thread.Sleep(500);
             }
         }
+
+        /// <summary>
+        /// Converts the data to a format acceptable by the json-server and
+        ///   then posts it to that server.
+        /// </summary>
+        /// <param name="jo">
+        /// the json object to convert and send
+        /// </param>
+        /// <param name="dataName">
+        /// An array of names for each of the json objects at the top level
+        /// </param>
+        /// <param name="endpoint">
+        /// The endpoint to send the data to
+        /// </param>
         private void postData(JObject jo, string dataName, string endpoint)
         {
             var data = "";
@@ -109,6 +143,7 @@ namespace WelchAllyn.VitalSigns
                 data = jo[dataName].ToString();
 
             // SessionDate is special because it isn't its own object in the json
+            // So we have to make it its own json object.
             if(dataName == "SessionDate")
             {
                 // 2018 - 11 - 26T09: 20:39
@@ -132,6 +167,10 @@ namespace WelchAllyn.VitalSigns
                 Console.WriteLine(result);
             }
         }
+
+        /// <summary>
+        /// Connects to the device using the Welch-Allyn SDK and Bluetooth
+        /// </summary>
         private void LoadConnectivitySDK()
         {
             try
@@ -199,6 +238,10 @@ namespace WelchAllyn.VitalSigns
                 deviceID = string.Empty;
             }
         }
+        /// <summary>
+        /// Gets the medical data from the device. Assumes that the SDK is
+        ///  already connected.
+        /// </summary>
         private VitalSigns[] GetVitalSignsData(int index)
         {
             Console.WriteLine("Getting data");
@@ -251,7 +294,7 @@ namespace WelchAllyn.VitalSigns
                 }
                 catch (COMException ex)
                 {
-                    // timed out waiting for a response 
+                    // timed out waiting for a response
                     if (ex.ErrorCode == unchecked((int)Timeout))
                     {
                         throw;

@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import {Card, CardHeader, CardText} from 'material-ui/Card';
 import { Box, Grid, Heading, Text } from 'grommet';
 
 const endpoint = 'http://127.0.0.1:3000/';
@@ -11,20 +10,34 @@ const weightEndpoint = endpoint + 'WeightData';
 const bmiEndpoint = endpoint + 'BMIData';
 const painEndpoint = endpoint + 'PainData';
 
+/**
+ * Component for the patient's data.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 export default class PatientData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      /** The full name of the patient (string) */
       fullName: false,
+      /** The patient's number (int) */
       number: false,
+      /** The patient's height (float) */
       height: false,
+      /** The patient's weight (float) */
       weight: false,
+      /** The patient's bmi (float) */
       bmi: false,
+      /** The patient's perceived pain level (int) */
       pain: false,
+      /** The current time (Time) */
       time: false
     }
   }
 
+  // Sets up tick to be called every 3 seconds.
   componentDidMount() {
     this.getAllData();
 
@@ -35,6 +48,7 @@ export default class PatientData extends React.Component {
     this.getAllData();
   }
 
+  // Gets each piece of data from the json backend and stores it in state
   getAllData() {
     this.getPatientData();
     this.getTime();
@@ -44,7 +58,7 @@ export default class PatientData extends React.Component {
     this.getPain();
   }
 
-  // Get heart rate from endpoint and append to array
+  // Gets the full name and number from the backend
   getPatientData() {
     axios.get(patientEndpoint)
       .then(res => {
@@ -55,6 +69,10 @@ export default class PatientData extends React.Component {
       })
   }
 
+  /**
+    * Gets the current time from the backend, converts it to a proper
+    *  format and then stores it in state
+    */
   getTime() {
     axios.get(timeEndpoint)
       .then(res => {
@@ -98,6 +116,7 @@ export default class PatientData extends React.Component {
       })
   }
 
+  // Converts the time to a proper format to be displayed
   sanitizeTime(sessionDate) {
     var date = new String(sessionDate);
     return date.substring(0, date.length-6);

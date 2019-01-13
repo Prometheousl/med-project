@@ -6,16 +6,27 @@ import { Box, Heading, Text } from 'grommet';
 const endpoint = 'http://127.0.0.1:3000/';
 const nibpEndpoint = endpoint + 'NibpData';
 
+/**
+ * Component for pressure. Displays the systolic, diastolic, and MAP
+ *  (systolic/diastolic) readings from the device.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 export default class NibpData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      /** The systolic pressure (float) */
       systolic: false,
+      /** The diastolic pressure (float) */
       diastolic: false,
+      /** The map pressure (float) */
       map: false
     }
   }
 
+  // Sets tick to be called every 3 seconds
   componentDidMount() {
     this.getNibpData();
 
@@ -26,7 +37,7 @@ export default class NibpData extends React.Component {
     this.getNibpData();
   }
 
-  // Get heart rate from endpoint and append to array
+  // Gets the pressure data from the json backend and stores it in state.
   getNibpData() {
     axios.get(nibpEndpoint)
       .then(res => {

@@ -5,14 +5,23 @@ import { Box, Heading } from 'grommet';
 const endpoint = 'http://127.0.0.1:3000/';
 const spo2Endpoint = endpoint + 'Spo2Data';
 
-export default class NibpData extends React.Component {
+/**
+ * Component for spo2, or oxygen saturation (amount of oxygen in the blood).
+ * It just displays the percentage.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
+export default class Spo2Data extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      /** The oxygen saturation percentage */
       sat: false
     }
   }
 
+  // sets up tick to be called every 3 seconds
   componentDidMount() {
     this.getSpo2Data();
 
@@ -23,7 +32,7 @@ export default class NibpData extends React.Component {
     this.getSpo2Data();
   }
 
-  // Get heart rate from endpoint and append to array
+  // Gets the oxygen saturation from the backend and stores it in state.
   getSpo2Data() {
     axios.get(spo2Endpoint)
       .then(res => {

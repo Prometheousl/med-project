@@ -7,11 +7,17 @@ import NibpData from './dataWidgets/NibpData';
 import Spo2Data from './dataWidgets/Spo2Data';
 import TemperatureData from './dataWidgets/TemperatureData';
 
+/**
+ * Container component for the different health data components.
+ * Organizes each into their respective boxes in a grid.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 export default class HealthData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      healthData: false
     }
   }
 

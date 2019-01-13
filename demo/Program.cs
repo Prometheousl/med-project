@@ -22,15 +22,14 @@ namespace WelchAllyn.VitalSigns
 					try
 					{
 						// mutex obtained - run the application
-						/*Application.EnableVisualStyles();
-						Application.SetCompatibleTextRenderingDefault(false);
 
-						Application.Run(new FormMain());*/
+						// Program.RunVisual();
 
-                        DataScraper scraper = new DataScraper();
-                        scraper.Main();
-                        Console.WriteLine("Terminating the application...");
-                    }
+						// Runs the command-line version of the application
+          	DataScraper scraper = new DataScraper();
+            scraper.Main();
+            Console.WriteLine("Terminating the application...");
+          }
 					finally
 					{
 						mutex.ReleaseMutex();
@@ -44,6 +43,17 @@ namespace WelchAllyn.VitalSigns
 					return;
 				}
 			}
+		}
+		/// <summary>
+		/// Runs the Welch Allyn SDK version of displaying the data.
+		/// It uses "Microsoft Forms"
+		/// </summary>
+		static void RunVisual()
+		{
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
+
+			Application.Run(new FormMain());
 		}
     }
 }

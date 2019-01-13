@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import { Grommet } from 'grommet';
-import { grommet, dark } from 'grommet/themes';
+import { grommet } from 'grommet/themes';
 
 import HealthData from './HealthData';
 
-const theme = {
-  global: {
-    font: {
-      family: 'Roboto',
-      size: '14px',
-      height: '20px',
-    },
-  },
-};
-
+/**
+ * Top-level component for the application.
+ * Uses Grommet for now, a React styling package.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 class App extends Component {
   render() {
     return (

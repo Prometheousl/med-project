@@ -5,7 +5,13 @@ import { Box, Heading } from 'grommet';
 const endpoint = 'http://127.0.0.1:3000/';
 const spo2Endpoint = endpoint + 'TemperatureData';
 
-export default class NibpData extends React.Component {
+/**
+ * Component for temperature.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
+export default class TemperatureData extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,6 +19,7 @@ export default class NibpData extends React.Component {
     }
   }
 
+  // sets up tick to be called every 3 seconds
   componentDidMount() {
     this.getTempData();
 
@@ -23,7 +30,7 @@ export default class NibpData extends React.Component {
     this.getTempData();
   }
 
-  // Get heart rate from endpoint and append to array
+  // Gets the temperature from the backend and stores it in state.
   getTempData() {
     axios.get(spo2Endpoint)
       .then(res => {
