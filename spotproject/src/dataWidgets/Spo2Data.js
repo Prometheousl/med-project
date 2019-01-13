@@ -43,7 +43,7 @@ export default class Spo2Data extends React.Component {
   render() {
     return (
         <Box pad="none">
-            <Heading alignSelf="start" size="small" margin="xsmall">Spo2</Heading>
+            <Heading alignSelf="start" size="small" margin="xsmall">Oxygen</Heading>
             <Heading alignSelf="center" size="large">{this.state.sat}%</Heading>
         </Box>
     )

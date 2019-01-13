@@ -119,7 +119,7 @@ export default class PatientData extends React.Component {
   // Converts the time to a proper format to be displayed
   sanitizeTime(sessionDate) {
     var date = new String(sessionDate);
-    return date.substring(0, date.length-6);
+    return date.substring(0, date.length-11);
   }
 
   render() {
