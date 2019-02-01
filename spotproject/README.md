@@ -145,7 +145,7 @@ my-app/
     App.test.js
     index.css
     index.js
-    logo.svg
+    logo.png
 ```
 
 For the project to build, **these files must exist with exact filenames**:
@@ -685,7 +685,7 @@ An alternative way of handling static assets is described in the next section.
 One way to add SVG files was described in the section above. You can also import SVGs directly as React components. You can use either of the two approaches. In your code it would look like this:
 
 ```js
-import { ReactComponent as Logo } from './logo.svg';
+import { ReactComponent as Logo } from './logo.png';
 const App = () => (
   <div>
     {/* Logo is an actual React component */}

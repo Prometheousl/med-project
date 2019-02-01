@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.9.1",
+    "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
@@ -17,9 +19,16 @@
     "react-chartjs-2": "^2.7.4",
     "react-charts": "^2.0.0-alpha.12",
     "react-dom": "^16.5.2",
+    "react-redux": "^6.0.0",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "2.0.4",
     "react-websocket": "^2.0.0",
     "recharts": "^1.4.1",
+    "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
+    "redux-form-material-ui": "^4.3.4",
+    "redux-form-website-template": "^1.0.6",
+    "redux-persist": "^5.10.0",
     "socket.io-client": "^2.1.1",
     "styled-components": "^4.1.2",
     "tslib": "^1.9.3"
@@ -40,7 +49,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "react-styleguidist": "^8.0.6",
-    "webpack": "^4.28.4"
+    "react-styleguidist": "^8.0.6"
   }
 }

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import { Provider } from "react-redux";
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { persistor, store } from "./store";
 import { Grommet } from 'grommet';
 import { grommet } from 'grommet/themes';
-
-import HealthData from './HealthData';
+import Routes from './routes'
+import { PersistGate } from 'redux-persist/integration/react';
 
 /**
  * Top-level component for the application.
@@ -14,9 +18,13 @@ import HealthData from './HealthData';
 class App extends Component {
   render() {
     return (
-      <Grommet full theme={grommet}>
-        <HealthData />
-      </Grommet>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <Routes />
+          </MuiThemeProvider>
+        </PersistGate>
+      </Provider>
     );
   }
 }
