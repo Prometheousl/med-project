@@ -19,14 +19,22 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <PersistGate loading={null} persistor={persistor}>
           <MuiThemeProvider muiTheme={getMuiTheme()}>
             <Routes />
           </MuiThemeProvider>
-        </PersistGate>
       </Provider>
     );
   }
 }
 
 export default App;
+
+/*return (
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <Routes />
+      </MuiThemeProvider>
+    </PersistGate>
+  </Provider>
+);*/

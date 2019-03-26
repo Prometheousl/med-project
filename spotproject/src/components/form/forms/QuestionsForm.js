@@ -89,7 +89,7 @@ const QuestionsForm = props => {
   const { handleSubmit, pristine, reset, submitting, classes } = props;
   console.log(store.getState());
 
-  const values = store.getState().form.QuestionsForm.values;
+  let values = store.getState().form.QuestionsForm.values;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -229,6 +229,8 @@ const QuestionsForm = props => {
 export default withStyles(styles)(
     reduxForm({
     form: 'QuestionsForm', // a unique identifier for this form
+    destroyOnUnmount: false,
+    forceUnregisterOnUnmount: true,
     validate,
     asyncValidate,
   })(QuestionsForm)

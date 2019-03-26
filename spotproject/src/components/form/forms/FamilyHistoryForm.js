@@ -89,7 +89,7 @@ const FamilyHistoryForm = props => {
   const { handleSubmit, pristine, reset, submitting, classes } = props;
   console.log(store.getState());
 
-  const values = store.getState().form.FamilyHistoryForm.values;
+  let values = store.getState().form.FamilyHistoryForm.values;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -130,13 +130,6 @@ const FamilyHistoryForm = props => {
         <Grid item xs={6}>
           <Field name="siblingProblems" component={renderTextField} multiLine={true} rows={2} label="Siblings' Medical Problems" value={values.siblingsProblems}/>
         </Grid>
-
-        <Grid item xs={3}>
-          <button type="submit" disabled={pristine || submitting}>Submit</button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>
-            Clear Values
-          </button>
-        </Grid>
       </Grid>
     </form>
   );
@@ -145,6 +138,8 @@ const FamilyHistoryForm = props => {
 export default withStyles(styles)(
     reduxForm({
     form: 'FamilyHistoryForm', // a unique identifier for this form
+    destroyOnUnmount: false,
+    forceUnregisterOnUnmount: true,
     validate,
     asyncValidate,
   })(FamilyHistoryForm)

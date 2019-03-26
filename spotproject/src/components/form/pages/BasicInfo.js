@@ -46,7 +46,7 @@ class BasicInfo extends React.Component {
           <Paper className={classes.paper}>
               <BasicInfoForm handleSubmit={submit}/>
           </Paper>
-          <BottomNav back='/main' next='/familyHistory'/>
+          <BottomNav type="submit" back='/main' next='/familyHistory'/>
         </Sidebar>
 
     );

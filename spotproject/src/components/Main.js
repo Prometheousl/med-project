@@ -55,7 +55,7 @@ class Main extends React.Component {
           <Grid container justify="center">
             <Grid spacing={24} alignItems="center" justify="center" container className={classes.grid}>
               <Grid item xs={12} >
-                <Typography variant='h1'>Welcome to the Medical Clinic</Typography>
+                <Typography variant='h1' className={classes.logo}>Welcome to the Medical Clinic</Typography>
                 <div className={classes.logo}>
                   <img width={100} height={100} src={logo} />
                 </div>

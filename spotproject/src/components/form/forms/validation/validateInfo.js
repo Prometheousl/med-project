@@ -17,6 +17,6 @@ export default function(values) {
       errors[field] = 'Required';
     }
   });
-  
+
   return errors;
 }

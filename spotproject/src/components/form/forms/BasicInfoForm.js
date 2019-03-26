@@ -11,8 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import asyncValidate from '../asyncValidate';
-import validate from '../validate';
-import store from '../../../store'
+import validate from './validation/validateInfo';
+import store from '../../../store';
 
 const styles = theme => ({
   root: {
@@ -166,12 +166,6 @@ const BasicInfoForm = props => {
         <Grid item xs={3}>
           <Field name="contactZip" component={renderTextField} label="Zip" value={values.contactZip}/>
         </Grid>
-        <Grid item xs={3}>
-          <button type="submit" disabled={pristine || submitting}>Submit</button>
-          <button type="button" disabled={pristine || submitting} onClick={reset}>
-            Clear Values
-          </button>
-        </Grid>
       </Grid>
     </form>
   );
@@ -180,6 +174,8 @@ const BasicInfoForm = props => {
 export default withStyles(styles)(
     reduxForm({
     form: 'BasicInfoForm', // a unique identifier for this form
+    destroyOnUnmount: false,
+    forceUnregisterOnUnmount: true,
     validate,
     asyncValidate,
   })(BasicInfoForm)
