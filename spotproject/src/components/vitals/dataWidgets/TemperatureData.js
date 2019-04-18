@@ -42,7 +42,6 @@ export default class TemperatureData extends React.Component {
   render() {
     return (
         <Box pad="none">
-            <Heading alignSelf="start" size="small" margin="xsmall">Temperature</Heading>
             <Heading alignSelf="center" size="large">{this.state.temp}°F</Heading>
         </Box>
     )

@@ -1,14 +1,33 @@
 import React from 'react';
 import axios from 'axios';
-import {Line} from 'react-chartjs-2';
+//import {Line} from 'react-chartjs-2';
 import { Box, Heading, Text } from 'grommet';
+
+import ResponsiveContainer from 'recharts/lib/component/ResponsiveContainer';
+import LineChart from 'recharts/lib/chart/LineChart';
+import Line from 'recharts/lib/cartesian/Line';
+import XAxis from 'recharts/lib/cartesian/XAxis';
+import YAxis from 'recharts/lib/cartesian/YAxis';
+import CartesianGrid from 'recharts/lib/cartesian/CartesianGrid';
+import Tooltip from 'recharts/lib/component/Tooltip';
+import Legend from 'recharts/lib/component/Legend';
 
 const endpoint = 'http://127.0.0.1:3000/';
 const heartRateEndpoint = endpoint + 'HeartRateData';
 const nibpEndpoint = endpoint + 'NibpData';
 const spo2Endpoint = endpoint + 'Spo2Data';
 
-const timeEndpoint = endpoint + 'SessionData';
+const timeEndpoint = endpoint + 'SessionDate';
+
+const dataa = [
+  { name: 'Mon', HeartRate: 100 },
+  { name: 'Tue', HeartRate: 98 },
+  { name: 'Wed', HeartRate: 77 },
+  { name: 'Thu', HeartRate: 52 },
+  { name: 'Fri', HeartRate: 63 },
+  { name: 'Sat', HeartRate: 74 },
+  { name: 'Sun', HeartRate: 88 },
+];
 
 /**
  * Component for heart rate. Uses a line-chart to display heart rate.
@@ -23,7 +42,8 @@ class HeartRateChart extends React.Component {
       /** An array of recorded heart rate data (bpm) */
       heartRates: [],
       /** The time that its corresponding heart-rate (by index) was recorded */
-      times: []
+      times: [],
+      data: []
     }
   }
 
@@ -39,6 +59,10 @@ class HeartRateChart extends React.Component {
   tick() {
     this.getHeartRateData();
     this.getTime();
+    //console.log(this.state);
+    //this.setState({ heartRates: [100,90,89,78,53,56,65],
+                    //times:      [0, 1, 2, 3, 4, 5, 6]});
+    //this.setState({  data: this.constructData()});
   }
 
   // Gets heart rate from endpoint and append to the heartRates array
@@ -73,40 +97,29 @@ class HeartRateChart extends React.Component {
     return m + ':' + s;
   }
 
+  constructData() {
+    //console.log("constructData called!");
+    var data = [];
+    for (var x = 0; x < this.state.times.length; x++) {
+      data.push(
+        { name: this.state.times[x], HeartRate: this.state.heartRates[x] }
+      );
+    }
+    return data;
+  }
+
   render() {
-    var data = {
-        labels: this.state.times,
-        datasets: [
-            {
-                label: 'Heart Rate (bpm)',
-                data: this.state.heartRates,
-                fill: false,
-                lineTension: 0.1,
-                backgroundColor: 'rgba(138,7,7,0.4)',
-                borderColor: 'rgba(138,7,7,1)',
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: 'rgba(138,7,7,1)',
-                pointBackgroundColor: '#fff',
-                pointBorderWidth: 1,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: 'rgba(138,7,7,1)',
-                pointHoverBorderColor: 'rgba(220,220,220,1)',
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-            }
-        ]
-    };
-
     return (
-        <Box>
-            <Heading alignSelf="center" margin="xsmall">Heart Rate</Heading>
-
-            <Line data={data} />
-        </Box>
+      <ResponsiveContainer width="99%" height={320}>
+        <LineChart data={this.state.data}>
+          <XAxis dataKey="name" />
+          <YAxis dataKey="time" />
+          <CartesianGrid vertical={false} strokeDasharray="3 3" />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="Heart Rate" stroke="#8884d8" activeDot={{ r: 8 }} />
+        </LineChart>
+      </ResponsiveContainer>
     )
   }
 }

@@ -52,9 +52,8 @@ export default class NibpData extends React.Component {
   render() {
     return (
         <Box pad="none">
-            <Heading alignSelf="start" size="small" margin="xsmall">Nibp</Heading>
             <Heading alignSelf="center" size="large">{this.state.systolic}/{this.state.diastolic}</Heading>
-            <Text alignSelf="start" margin="xsmall"> SYS/DIA mmHg (MAP {this.state.map}) </Text>
+            <Text alignSelf="center" margin="xsmall"> SYS/DIA mmHg (MAP {this.state.map}) </Text>
         </Box>
     )
   }

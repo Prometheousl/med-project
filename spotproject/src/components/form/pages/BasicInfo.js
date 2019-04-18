@@ -5,14 +5,37 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Sidebar from '../../common/Sidebar'
 import BottomNav from '../../common/BottomNav'
 import BasicInfoForm from '../forms/BasicInfoForm'
 
 const styles = theme => ({
-  typographyMargin: {
-    marginBottom: '30px'
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+      marginTop: theme.spacing.unit * 6,
+      marginBottom: theme.spacing.unit * 6,
+      padding: theme.spacing.unit * 3,
+    },
+  },
+  header: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
   }
 });
 
@@ -40,14 +63,18 @@ class BasicInfo extends React.Component {
     const { classes } = this.props;
     // not sure why I need to use Provider again... fix this later.
     return (
-
-        <Sidebar header='Basic Info'>
-          <Typography variant="h4" className={classes.typographyMargin}>Please fill out the following form carefully.</Typography>
+      <Sidebar header='Basic Info'>
+        <CssBaseline />
+        <main className={classes.layout}>
           <Paper className={classes.paper}>
+              <Typography component="h1" variant="h4" align="center" className={classes.header}>
+                Personal Information
+              </Typography>
               <BasicInfoForm handleSubmit={submit}/>
           </Paper>
-          <BottomNav type="submit" back='/main' next='/familyHistory'/>
-        </Sidebar>
+        </main>
+        <BottomNav type="submit" back='/main' next='/familyHistory'/>
+      </Sidebar>
 
     );
   }

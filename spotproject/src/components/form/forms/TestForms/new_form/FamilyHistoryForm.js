@@ -31,15 +31,11 @@ const styles = theme => ({
 });
 
 const renderTextField = (
-  { input, label, name, meta: { touched, error }, ...custom },
+  { input, label, meta: { touched, error }, ...custom },
 ) => (
   <TextField
-    id={name}
-    name={name}
-    label={label}
     hintText={label}
     floatingLabelText={label}
-    fullWidth
     errorText={touched && error}
     {...input}
     {...custom}
@@ -97,33 +93,42 @@ const FamilyHistoryForm = props => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Grid container spacing={24}>
-        <Grid item xs={24} sm={12}>
-          <Typography variant='h6' align='left'>Father</Typography>
+      <Grid container spacing={24} alignItems="flex-end">
+        <Grid item xs={3}>
+          <Typography variant="h4">Family</Typography>
         </Grid>
-        <Grid item xs={2} sm={2}>
-          <Field name="fatherAge" component={renderTextField} label="Age" value={values.fatherAge}/>
+        <Grid item xs={3}>
+          <Typography variant="h4">Age</Typography>
         </Grid>
-        <Grid item xs={22} sm={10}>
-          <Field name="fatherProblems" component={renderTextField} multiLine={true} label="Father's Medical Problems" value={values.fatherProblems}/>
+        <Grid item xs={6}>
+          <Typography variant="h4">Significant Medical Problems</Typography>
         </Grid>
-        <Grid item xs={24} sm={12}>
-          <Typography variant='h6' align='left'>Mother</Typography>
+        <Grid item xs={3}>
+          <Typography variant="h5">Father</Typography>
         </Grid>
-        <Grid item xs={2} sm={2}>
-          <Field name="motherAge" component={renderTextField} label="Age"value={values.motherAge}/>
+        <Grid item xs={3}>
+          <Field name="fatherAge" component={renderTextField} label="Father's Age" value={values.fatherAge}/>
         </Grid>
-        <Grid item xs={22} sm={10}>
-          <Field name="motherProblems" component={renderTextField} multiLine={true} label="Mother's Medical Problems" value={values.motherProblems}/>
+        <Grid item xs={6}>
+          <Field name="fatherProblems" component={renderTextField} multiLine={true} rows={2} label="Father's Medical Problems" value={values.fatherProblems}/>
         </Grid>
-        <Grid item xs={24} sm={12}>
-          <Typography variant='h6' align='left'>Siblings</Typography>
+        <Grid item xs={3}>
+          <Typography variant="h5">Mother</Typography>
         </Grid>
-        <Grid item xs={24} sm={12}>
-          <Field name="siblingsAges" component={renderTextField} label="Ages" value={values.siblingsAges}/>
+        <Grid item xs={3}>
+          <Field name="motherAge" component={renderTextField} label="Mother's Age"value={values.motherAge}/>
         </Grid>
-        <Grid item xs={24} sm={12}>
-          <Field name="siblingProblems" component={renderTextField} multiLine={true} label="Siblings' Medical Problems" value={values.siblingsProblems}/>
+        <Grid item xs={6}>
+          <Field name="motherProblems" component={renderTextField} multiLine={true} rows={2} label="Mother's Medical Problems" value={values.motherProblems}/>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography variant="h5">Siblings</Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Field name="siblingsAges" component={renderTextField} label="Siblings' Ages" value={values.siblingsAges}/>
+        </Grid>
+        <Grid item xs={6}>
+          <Field name="siblingProblems" component={renderTextField} multiLine={true} rows={2} label="Siblings' Medical Problems" value={values.siblingsProblems}/>
         </Grid>
       </Grid>
     </form>

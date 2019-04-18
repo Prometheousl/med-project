@@ -5,17 +5,37 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Sidebar from '../../common/Sidebar'
 import BottomNav from '../../common/BottomNav'
 import FamilyHistoryForm from '../forms/FamilyHistoryForm'
 
 const styles = theme => ({
-  buttonMargin: {
-    margin: '30px'
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 2 * 2)]: {
+      width: 600,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
   },
-  typographyMargin: {
-    marginBottom: '30px'
+  paper: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    [theme.breakpoints.up(600 + theme.spacing.unit * 3 * 2)]: {
+      marginTop: theme.spacing.unit * 6,
+      marginBottom: theme.spacing.unit * 6,
+      padding: theme.spacing.unit * 3,
+    },
+  },
+  header: {
+    marginTop: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
   }
 })
 
@@ -41,16 +61,18 @@ class FamilyHistory extends React.Component {
   // what is placed in Sidebar is passed as props.children to Sidebar
   render() {
     const { classes } = this.props;
-    // not sure why I need to use Provider again... fix this later.
     return (
-
         <Sidebar header='Family Medical History'>
-          <Typography variant="h4" className={classes.typographyMargin}>Please let us know of any problems in your family's medical history.</Typography>
-          <Paper className={classes.paper}>
-            <FamilyHistoryForm handleSubmit={submit}/>
-          </Paper>
+          <CssBaseline />
+          <main className={classes.layout}>
+            <Paper className={classes.paper}>
+              <Typography component="h1" variant="h4" align="center" className={classes.header}>
+                Family Medical History
+              </Typography>
+              <FamilyHistoryForm handleSubmit={submit}/>
+            </Paper>
+          </main>
           <BottomNav back='/basicInfo' next='/questions' />
-
         </Sidebar>
 
     );

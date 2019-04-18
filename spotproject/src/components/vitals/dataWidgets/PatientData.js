@@ -1,6 +1,12 @@
 import React from 'react';
 import axios from 'axios';
-import { Box, Grid, Heading, Text } from 'grommet';
+//import { Box, Grid, Heading, Text } from 'grommet';
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 
 const endpoint = 'http://127.0.0.1:3000/';
 const patientEndpoint = endpoint + 'PatientData';
@@ -9,6 +15,42 @@ const heightEndpoint = endpoint + 'HeightData';
 const weightEndpoint = endpoint + 'WeightData';
 const bmiEndpoint = endpoint + 'BMIData';
 const painEndpoint = endpoint + 'PainData';
+
+const styles = theme => ({
+  layout: {
+    width: 'auto',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(1100 + theme.spacing.unit * 3 * 2)]: {
+      width: 1100,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  mainFeaturedPost: {
+    backgroundColor: theme.palette.grey[800],
+    color: theme.palette.common.white,
+    marginBottom: theme.spacing.unit * 4,
+  },
+  mainFeaturedPostContent: {
+    padding: `${theme.spacing.unit * 6}px`,
+    [theme.breakpoints.up('md')]: {
+      paddingRight: 0,
+    },
+  },
+  mainGrid: {
+    marginTop: theme.spacing.unit * 3,
+  },
+  card: {
+    display: 'flex',
+  },
+  cardDetails: {
+    flex: 1,
+  },
+  cardMedia: {
+    width: 160,
+  },
+});
 
 /**
  * Component for the patient's data.
@@ -124,36 +166,40 @@ export default class PatientData extends React.Component {
 
   render() {
     return (
-      <div>
-        <Grid align="stretch"
-          areas={[
-            { name: 'identification', start: [0, 0], end: [1, 0] },
-            { name: 'bodyInfo', start: [1, 0], end: [2, 0] },
-            { name: 'time', start: [2, 0], end: [3, 0] },
-          ]}
-          columns={['flex', 'flex','flex']}
-          rows={['full']}
-          gap='small'
-
-        >
-          <Box gridArea="identification" >
-            <Heading margin="xsmall" level={1}>{this.state.fullName} </Heading>
-            <Heading margin="xsmall" color="status-critical" level={1} size="small">
-              Pain:   {this.state.pain}
-            </Heading>
-            <br />
-            <Text margin="xsmall"> number: {this.state.number} </Text> <br />
-          </Box>
-          <Box gridArea="bodyInfo" pad='xsmall'>
-            <Text margin="xsmall" pad="none"> Height: {this.state.height}" </Text> <br />
-            <Text margin="xsmall"> Weight: {this.state.weight}lbs </Text><br />
-            <Text margin="xsmall"> BMI:    {this.state.bmi}    </Text><br />
-          </Box>
-          <Box gridArea="time" pad='xsmall'>
-            Date:   {this.state.time}   <br />
-          </Box>
+      <Grid container spacing={24}>
+        <Grid item xs={6} sm={3}>
+          <Typography align="left" color="secondary" variant="h6">
+            Pain: {this.state.pain}
+          </Typography>
         </Grid>
-      </div>
+        <Grid item xs={6} sm={3}>
+          <Typography align="left" variant="h6">
+            Number: {this.state.number}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={3} />
+        <Grid item xs={6} sm={3}>
+          <Typography align="left" variant="h6">
+            Date: {this.state.time}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Typography align="left" variant="h6">
+            Height: {this.state.height}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={3}>
+          <Typography align="left" variant="h6">
+            Weight: {this.state.weight}
+          </Typography>
+        </Grid>
+        <Grid item xs={6} sm={3} />
+        <Grid item xs={6} sm={3}>
+          <Typography align="left" variant="h6">
+            BMI: {this.state.bmi}
+          </Typography>
+        </Grid>
+      </Grid>
     );
   }
 }

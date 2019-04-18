@@ -4,6 +4,7 @@ import BasicInfo from './BasicInfo';
 import FamilyHistory from './FamilyHistory';
 import Questions from './Questionss';
 import Review from './Review';
+import withStyles from '@material-ui/core/styles/withStyles';
 
 import showResults from "../showResults";
 
@@ -29,24 +30,26 @@ class Forms extends Component {
     const { onSubmit } = this.props;
     const { page } = this.state;
     return (
-      <div>
-        {page === 1 && <BasicInfo onSubmit={this.nextPage} />}
-        {page === 2 &&
-          <FamilyHistory
-            previousPage={this.previousPage}
-            onSubmit={this.nextPage}
-          />}
-        {page === 3 &&
-          <Questions
-            previousPage={this.previousPage}
-            onSubmit={this.nextPage}
-          />}
-        {page === 4 &&
-          <Review
-            previousPage={this.previousPage}
-            onSubmit={onSubmit}
-          />}
-      </div>
+      <React.Fragment>
+        <div>
+          {page === 1 && <BasicInfo onSubmit={this.nextPage} />}
+          {page === 2 &&
+            <FamilyHistory
+              previousPage={this.previousPage}
+              onSubmit={this.nextPage}
+            />}
+          {page === 3 &&
+            <Questions
+              previousPage={this.previousPage}
+              onSubmit={this.nextPage}
+            />}
+          {page === 4 &&
+            <Review
+              previousPage={this.previousPage}
+              onSubmit={onSubmit}
+            />}
+        </div>
+      </React.Fragment>
     );
   }
 }

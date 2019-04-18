@@ -15,6 +15,8 @@ import Review from './components/form/pages/Review';
 import HealthData from './components/vitals/HealthData';
 import showResults from "./components/form/showResults";
 
+import Checkout from './components/form/forms/TestForms/checkout/Checkout'
+
 export default props => (
   <BrowserRouter>
     <ScrollToTop>
@@ -28,6 +30,8 @@ export default props => (
         <Route exact path='/questions' component={ Questionss } />
         <Route exact path='/review' component={ Review } />
         <Route exact path='/vitals' component={ HealthData } />
+        // testing
+        <Route exact path='/checkout' component = { Checkout } />
       </Switch>
     </ScrollToTop>
   </BrowserRouter>
