@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Box, Heading } from 'grommet';
+import contactNurse from '../../../scripts/contactNurse';
 
 const endpoint = 'http://127.0.0.1:3000/';
 const spo2Endpoint = endpoint + 'Spo2Data';
@@ -36,8 +37,18 @@ export default class Spo2Data extends React.Component {
   getSpo2Data() {
     axios.get(spo2Endpoint)
       .then(res => {
+        this.checkSpo(res.data.Sat);
         this.setState({ sat: res.data.Sat });
       })
+  }
+
+  checkSpo(spo) {
+    if(spo > 0) {
+      if(spo < 80)
+        contactNurse("Your oxygen levels are too low!");
+      if(spo > 100)
+        contactNurse("Your oxygen levels are too high!");
+    }
   }
 
   render() {

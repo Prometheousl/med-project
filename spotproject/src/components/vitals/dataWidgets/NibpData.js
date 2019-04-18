@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import {Line} from 'react-chartjs-2';
 import { Box, Heading, Text } from 'grommet';
+import contactNurse from '../../../scripts/contactNurse';
 
 const endpoint = 'http://127.0.0.1:3000/';
 const nibpEndpoint = endpoint + 'NibpData';
@@ -41,12 +42,20 @@ export default class NibpData extends React.Component {
   getNibpData() {
     axios.get(nibpEndpoint)
       .then(res => {
+        var sys = Math.round(res.data.Systolic/100);
+        var dia = Math.round(res.data.Diastolic/100);
+        this.checkNibp(sys,dia);
         this.setState({
-          systolic: Math.round(res.data.Systolic/100),
-          diastolic: Math.round(res.data.Diastolic/100),
+          systolic: sys,
+          diastolic: dia,
           map: Math.round(res.data.Map/100)
         });
       })
+  }
+
+  checkNibp(systolic, diastolic) {
+    if(((systolic / diastolic) > (140 / 90)) && systolic > 0 && diastolic > 0)
+      contactNurse("Blood pressure too high!");
   }
 
   render() {
