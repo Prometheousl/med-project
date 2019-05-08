@@ -12,22 +12,14 @@ import CartesianGrid from 'recharts/lib/cartesian/CartesianGrid';
 import Tooltip from 'recharts/lib/component/Tooltip';
 import Legend from 'recharts/lib/component/Legend';
 
+import contactNurse from '../../../scripts/contactNurse';
+
 const endpoint = 'http://127.0.0.1:3000/';
 const heartRateEndpoint = endpoint + 'HeartRateData';
 const nibpEndpoint = endpoint + 'NibpData';
 const spo2Endpoint = endpoint + 'Spo2Data';
 
 const timeEndpoint = endpoint + 'SessionDate';
-
-const dataa = [
-  { name: 'Mon', HeartRate: 100 },
-  { name: 'Tue', HeartRate: 98 },
-  { name: 'Wed', HeartRate: 77 },
-  { name: 'Thu', HeartRate: 52 },
-  { name: 'Fri', HeartRate: 63 },
-  { name: 'Sat', HeartRate: 74 },
-  { name: 'Sun', HeartRate: 88 },
-];
 
 /**
  * Component for heart rate. Uses a line-chart to display heart rate.
@@ -43,7 +35,8 @@ class HeartRateChart extends React.Component {
       heartRates: [],
       /** The time that its corresponding heart-rate (by index) was recorded */
       times: [],
-      data: []
+      data: [],
+      validHR: true
     }
   }
 
@@ -58,11 +51,14 @@ class HeartRateChart extends React.Component {
   // Gets the heart rate and time data from the json backend
   tick() {
     this.getHeartRateData();
-    this.getTime();
+    console.log(this.state.validHR);
+    if(this.state.validHR) {
+      this.getTime();
+      this.setState({  data: this.constructData()});
+    }
     //console.log(this.state);
     //this.setState({ heartRates: [100,90,89,78,53,56,65],
                     //times:      [0, 1, 2, 3, 4, 5, 6]});
-    //this.setState({  data: this.constructData()});
   }
 
   // Gets heart rate from endpoint and append to the heartRates array
@@ -70,9 +66,13 @@ class HeartRateChart extends React.Component {
       axios.get(spo2Endpoint)
         .then(res => {
           console.log(res.data.HR);
-          this.setState({ heartRates: [...this.state.heartRates, res.data.HR ]});
+          this.checkHeartRate(res.data.HR);
+          if(this.isHRRelevant(res.data.HR) && res.data.HR != "")
+            this.setState({ heartRates: [...this.state.heartRates, res.data.HR ],
+                            validHR: true});
+          else
+            this.setState({ validHR: false});
         })
-
   }
 
   // Gets the Time associated with heart rate and appends it to the times array
@@ -81,6 +81,26 @@ class HeartRateChart extends React.Component {
       .then(res => {
         this.setState({ times: [...this.state.times, this.sanitizeTime(res.data.SessionDate) ]});
       })
+  }
+
+  isHRRelevant(currHR) {
+   // if(currHR == "" || currHR == null) return false;
+
+    var heartRates = this.state.heartRates;
+    var prevHR = heartRates[heartRates.length-1];
+    if(prevHR - currHR == 0)
+      return false;
+    else
+      return true;
+  }
+
+  checkHeartRate(HR) {
+    if(HR > 0) {
+      if(HR < 60)
+        contactNurse("Heart rate too low!");
+      if(HR > 100)
+        contactNurse("Heart rate too high!");
+    }
   }
 
   /**
@@ -105,6 +125,7 @@ class HeartRateChart extends React.Component {
         { name: this.state.times[x], HeartRate: this.state.heartRates[x] }
       );
     }
+    console.log(data);
     return data;
   }
 
@@ -113,11 +134,11 @@ class HeartRateChart extends React.Component {
       <ResponsiveContainer width="99%" height={320}>
         <LineChart data={this.state.data}>
           <XAxis dataKey="name" />
-          <YAxis dataKey="time" />
+          <YAxis />
           <CartesianGrid vertical={false} strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="Heart Rate" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="HeartRate" stroke="#8884d8" activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     )

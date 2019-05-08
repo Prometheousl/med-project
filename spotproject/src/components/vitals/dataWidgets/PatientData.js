@@ -153,7 +153,7 @@ export default class PatientData extends React.Component {
     axios.get(heightEndpoint)
       .then(res => {
         this.setState({
-          height: res.data.Height/25.4
+          height: Math.round(res.data.Height/25.4)
         });
       })
   }
