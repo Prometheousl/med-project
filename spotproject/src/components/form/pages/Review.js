@@ -46,8 +46,11 @@ const submit = values => {
 }
 
 /**
- * Container component for the different health data components.
- * Organizes each into their respective boxes in a grid.
+ * Displays all of the different form components and asks the user to
+ * verify that the data they have entered is correct.
+ *
+ * Upon submit, it writes the values in the store to a file (can be changed
+* to an EHR in the future).
  *
  * @version 1.0.0
  * @author [Alex Lay](https://github.com/Prometheousl)
@@ -60,12 +63,9 @@ class Review extends React.Component {
     }
   }
 
-
-
   // what is placed in Sidebar is passed as props.children to Sidebar
   render() {
     const { classes } = this.props;
-    // not sure why I need to use Provider again... fix this later.
     return (
         <Sidebar header='Review'>
           <CssBaseline />

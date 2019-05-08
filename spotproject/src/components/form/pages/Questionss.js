@@ -44,8 +44,7 @@ const submit = values => {
 }
 
 /**
- * Container component for the different health data components.
- * Organizes each into their respective boxes in a grid.
+ * Container component for the QuestionsForm component.
  *
  * @version 1.0.0
  * @author [Alex Lay](https://github.com/Prometheousl)
@@ -61,7 +60,6 @@ class Questions extends React.Component {
   // what is placed in Sidebar is passed as props.children to Sidebar
   render() {
     const { classes } = this.props;
-    // not sure why I need to use Provider again... fix this later.
     return (
         <Sidebar header='Medical Questions'>
           <CssBaseline />

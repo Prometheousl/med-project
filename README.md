@@ -77,7 +77,7 @@ Each of the following javascript files' names correspond to their component. Exa
 
 ### Forms (/form)
 
-**Forms.js** is still being worked on. In the future it will prevent patients from moving to a different page in the form before they have entered required information for the previous form(s).
+**Form.js** is still being worked on.
 
 **BasicInfo.js** contains a form that asks for basic info about the patient.
 
@@ -87,13 +87,37 @@ Each of the following javascript files' names correspond to their component. Exa
 
 **Review.js** pools together all of the questions asked in the previous forms and allows the patient to review it.
 
+Each form in /forms stores the data entered into the store via Redux. This allows the data to persist and be retrieved later. It also allows for the data to be written to a file later in the application once the user submits the form data. They each are based on the [redux-form](https://redux-form.com/8.2.0/) project. More specifically, they are based on using redux-form and material-ui together: [redux-form & material-ui](https://redux-form.com/8.2.0/).
+
 ### Data Visualization
 
 **HealthData.js** organizes the different health data displays on the screen and instantiates them. These include heart rate (**HeartRateChart.js**), pressure (**NibpData.js**), the patient's basic information (**PatientData**), the oxygen level in the blood (**Spo2Data.js**), and the temperature of the patient (**TemperatureData.js**). In each of these components, the data is updated from the web-server every second using [axios](https://www.npmjs.com/package/axios). This data is stored in state, which in-turn updates the DOM of the webpage.
 
+## Data Storage
+
+Data is stored for each session in **store.js**. Using Redux, data is written to the store for later retrieval. To retrieve data from the store *store.getState()* is used. Each form writes to the store and once the user clicks "submit" on the Review page, the data in the store is...
+
+1. Posted via axios to the server
+2. Written to a file from the server
+
+This decouples the frontend from the server so the frontend and server could
+be located on different devices.
+
+The data collected from the Spot device can easily be written to a file from the C# script, **DataScraper.cs** located in /demo. So, I did not include this data in the store on the frontend. However, this functionality could be added in the future.
+
+## Error Detection
+
+If the vitals collected from the device go out of bounds, an error will be shown. The bounds are:
+
+| Vital Sign      | Threshold          |
+| --------------- | ------------------:|
+| Blood Pressure  | > 140/90           |
+| Respirations    | > 22               |
+| Heart Rate      | < 60 or > 100      |
+| Temperature     | > 100.5            |
+
+This can be updated in the future to send a message to a nurse. It can also be updated to write this data to an EHR. A good tool for messaging is [Twilio](https://www.twilio.com/).
+
 ### TODO
 
-* change GET from axios calls to redux-thunk calls so can store data locally
-* figure out why I can't call Questions Questions????
 * implement the preliminary "returning patient" (might not implement this)
-* prevent patients from moving to a different page in the form before they have entered required info for the previous form

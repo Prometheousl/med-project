@@ -11,7 +11,16 @@ const styles = theme => ({
     margin: '30px'
   },
 });
-
+/**
+ * A basic button that contains a link. Takes in props:
+ *   classes: styling
+ *   path: the link to go to
+ *   name: the text displayed in the button
+ *   color: the color of the button
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 class LinkButton extends Component {
   render() {
     const { classes, path, name, color } = this.props;

@@ -96,7 +96,13 @@ const styles = theme => ({
     marginLeft: 0,
   },
 });
-
+/**
+ * A sidebar. Contains all of the components in the form data section.
+ * Allows the user to navigate between them.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 class Sidebar extends React.Component {
   state = {
     open: false,

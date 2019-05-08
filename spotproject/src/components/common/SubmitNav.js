@@ -18,7 +18,13 @@ const styles = theme => ({
     margin: '30px'
   },
 });
-
+/**
+ * A submit button that posts to an endpoint the redux store.
+ * Once the data is posted, the server writes the data to a file.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 class BottomNav extends Component {
 
   handleSubmit() {

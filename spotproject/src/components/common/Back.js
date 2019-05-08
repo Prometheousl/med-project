@@ -15,7 +15,12 @@ const styles = theme => ({
     verticalAlign: 'text-bottom'
   }
 });
-
+/**
+ * A basic Back button.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 class Back extends Component {
   render() {
     const { classes, path, name } = this.props;

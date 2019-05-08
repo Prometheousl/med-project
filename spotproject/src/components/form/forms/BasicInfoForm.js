@@ -91,7 +91,16 @@ const renderDateField = (
     {...custom}
   />
 );
-
+/**
+ * A redux-form component. This component contains fields that the user enters
+ * information in and the component stores that information in the redux store.
+ *
+ * This asks a series of basic information questions necessary for filling out the
+ * EHR.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 const BasicInfoForm = props => {
   const { handleSubmit, pristine, reset, submitting, classes } = props;
   console.log(store.getState());

@@ -11,7 +11,12 @@ const styles = theme => ({
     margin: '30px'
   },
 });
-
+/**
+ * The bottom navigation for the page... has a next and back button.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 class BottomNav extends Component {
   render() {
     const { classes, back, next } = this.props;

@@ -44,8 +44,7 @@ const submit = values => {
 }
 
 /**
- * Container component for the different health data components.
- * Organizes each into their respective boxes in a grid.
+ * Container component for the BasicInfoForm component.
  *
  * @version 1.0.0
  * @author [Alex Lay](https://github.com/Prometheousl)

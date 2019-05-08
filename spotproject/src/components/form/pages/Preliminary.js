@@ -35,9 +35,6 @@ const contactNurse = () => {
   window.alert(`A nurse will be with you shortly.`);
 };
 
-//const numeral = require('numeral');
-//numeral.defaultFormat('0');
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -116,7 +113,17 @@ const getSteps = () => {
     'Result'
   ];
 }
-
+/**
+ * Component that asks preliminary questions before requiring the user to
+ * submit form data. It starts on the main page, then asks if the user is
+ * experiencing any heart pain, then asks if the user is a new or returning
+ * user *NOTE* this part will probably be changed in the future.
+ *
+ * If the user is experiencing heart pain, it displays an error.
+ *
+ * @version 1.0.0
+ * @author [Alex Lay](https://github.com/Prometheousl)
+ */
 class Preliminary extends Component {
 
   state = {
